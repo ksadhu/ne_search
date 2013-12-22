@@ -1,0 +1,14 @@
+There are 5 files in total in the project.
+
+Various codes and their functionalities are as follows
+
+1.TextExtract.java : This program does both HTML parsing using Jericho tool and NE tagging. This program makes use of GATE NEtagger.java program for NE tagging. So, the input to this program is all the web files in HTML format and the output will be pure text with named entities tagged. The output will be stored separately for each category in different directories.
+
+2.FeaturesExtract.java : This program first tags all the sentences in each text file with Stanford POS tagger. Now I have stored all the positions of N.Entities in a sentence and created strings for all the possible pairs of named entities in a sentence. The two for loops in the code does this task. I have also stored the parts of speech tags and words between two entities so they might act as a relation. If length of the string between two entities is greater than 50 characters, I have neglected that pair. So, all the collected such pairs are stored in treemap tMap. In the end, after processing all the text files the contents of the treemap are dumped into one directory. Hence, the input to this program will be the output of program TextExtract.java and the output will be a directory named 'all' containing all the relations.
+
+3.IndexFeatures.java : This program make use of Lucene to index all the strings of named entity relations obtained as the output in the above program. Hence, the input will be 'all' directory and the output will be storesd in 'indexFiles' directory.
+
+4.LuceneSearcher.java : This program performs the search functionality in the index created using Lucene. I have processed the input query, which can be of the form word1_word2_word3_etc to suit the actual word and gave it as input to the searcher. After getting hits in the search each hit is displayed with the following format.
+<NE1> <rel> <NE2> <doc name>
+Note that <rel> can be empty field. For example, for the phrase, “NY,USA”, since there is no verb in between both the locations the relation will be null.
+Hence, the input to this program will be the index directory 'indexFiles' and the output will be list of NE pairs with/without relation between them.
